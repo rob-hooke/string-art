@@ -266,6 +266,13 @@ const StringArtGenerator = () => {
     lastRenderedStepRef.current = 0;
   }, [showImage, lineOpacity, stringColor, backgroundColor, stringPath]);
 
+  // Invalidate nail position cache when dimensions or count change
+  useEffect(() => {
+    nailPositionsCache.current = null;
+    nailPositionsCacheKey.current = '';
+    lastRenderedStepRef.current = 0;
+  }, [canvasWidth, canvasHeight, nailCount]);
+
   useEffect(() => {
     if (!overlayCanvasRef.current) return;
     const canvas = overlayCanvasRef.current;
