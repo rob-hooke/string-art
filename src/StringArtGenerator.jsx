@@ -266,12 +266,19 @@ const StringArtGenerator = () => {
     lastRenderedStepRef.current = 0;
   }, [showImage, lineOpacity, stringColor, backgroundColor, stringPath]);
 
-  // Invalidate nail position cache when dimensions or count change
+  // Invalidate nail position cache when dimensions or count change (debounced for slider)
   useEffect(() => {
-    nailPositionsCache.current = null;
-    nailPositionsCacheKey.current = '';
-    lastRenderedStepRef.current = 0;
-  }, [canvasWidth, canvasHeight, nailCount]);
+    // Only invalidate if there's an actual string path to redraw
+    if (stringPath.length === 0) return;
+
+    const timer = setTimeout(() => {
+      nailPositionsCache.current = null;
+      nailPositionsCacheKey.current = '';
+      lastRenderedStepRef.current = 0;
+    }, 100); // 100ms debounce for smooth slider interaction
+
+    return () => clearTimeout(timer);
+  }, [canvasWidth, canvasHeight, nailCount, stringPath.length]);
 
   useEffect(() => {
     if (!overlayCanvasRef.current) return;
