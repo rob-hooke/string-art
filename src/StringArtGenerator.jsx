@@ -299,18 +299,6 @@ const StringArtGenerator = () => {
       ctx.beginPath();
       ctx.arc(nail.x, nail.y, 3, 0, Math.PI * 2);
       ctx.fill();
-      
-      const showEvery = nailCount > 100 ? 10 : nailCount > 50 ? 5 : 1;
-      if (nail.index % showEvery === 0) {
-        let labelX = nail.x, labelY = nail.y;
-        const offset = 12;
-        if (nail.y === 0) labelY -= offset;
-        else if (nail.y >= canvasHeight - 1) labelY += offset;
-        else if (nail.x >= canvasWidth - 1) labelX += offset;
-        else if (nail.x === 0) labelX -= offset;
-        ctx.fillStyle = '#2c3e50';
-        ctx.fillText(nail.index.toString(), labelX, labelY);
-      }
     }
   }, [canvasWidth, canvasHeight, nailCount, showOverlay, calculateNailPositions]);
 
@@ -412,10 +400,45 @@ const StringArtGenerator = () => {
       if (nail.index % showEvery === 0) {
         let labelX = nail.x, labelY = nail.y;
         const offset = 18 * printScale;
-        if (nail.y < 10 * printScale) labelY += offset;
-        else if (nail.y > canvas.height - 10 * printScale) labelY -= offset;
-        else if (nail.x > canvas.width - 10 * printScale) labelX -= offset;
-        else if (nail.x < 10 * printScale) labelX += offset;
+        const edgeThreshold = 10 * printScale;
+
+        // Detect which edges the nail is on
+        const onTop = nail.y < edgeThreshold;
+        const onBottom = nail.y > canvas.height - edgeThreshold;
+        const onLeft = nail.x < edgeThreshold;
+        const onRight = nail.x > canvas.width - edgeThreshold;
+
+        // Handle corners and edges with proper pin-point positioning
+        if (onTop && onLeft) {
+          // Top-left corner: offset down-right
+          labelX += offset;
+          labelY += offset;
+        } else if (onTop && onRight) {
+          // Top-right corner: offset down-left
+          labelX -= offset;
+          labelY += offset;
+        } else if (onBottom && onLeft) {
+          // Bottom-left corner: offset up-right
+          labelX += offset;
+          labelY -= offset;
+        } else if (onBottom && onRight) {
+          // Bottom-right corner: offset up-left
+          labelX -= offset;
+          labelY -= offset;
+        } else if (onTop) {
+          // Top edge: offset down
+          labelY += offset;
+        } else if (onBottom) {
+          // Bottom edge: offset up
+          labelY -= offset;
+        } else if (onLeft) {
+          // Left edge: offset right
+          labelX += offset;
+        } else if (onRight) {
+          // Right edge: offset left
+          labelX -= offset;
+        }
+
         ctx.fillStyle = '#2c3e50';
         ctx.fillText(nail.index.toString(), labelX, labelY);
       }
@@ -428,7 +451,8 @@ const StringArtGenerator = () => {
     
     const a = document.createElement('a');
     a.href = canvas.toDataURL('image/png');
-    a.download = 'nail-overlay.png';
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+    a.download = `nail-overlay-${timestamp}.png`;
     a.click();
   };
 
