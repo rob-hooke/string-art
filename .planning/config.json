@@ -1,0 +1,13 @@
+{
+  "workflow": {
+    "research": true,
+    "requirements": true,
+    "roadmap": true,
+    "state": true
+  },
+  "preferences": {
+    "pdf_library": "jsPDF",
+    "aesthetic": "minimalist",
+    "unit_default": "cm"
+  }
+}
