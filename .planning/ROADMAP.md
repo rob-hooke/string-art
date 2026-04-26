@@ -12,16 +12,16 @@
 - [x] **Task 1.3:** Fix button responsiveness issues (likely caused by stale state or unhandled async effects).
 - [x] **Task 1.4:** Add regression tests for dimension changes.
 
-## Phase 2: PDF Export Implementation
+## Phase 2: PDF Export Implementation (IN PROGRESS)
 *Goal: Add the requested PDF instruction export feature.*
 
 **Plans:**
-- [ ] 02-01-PLAN.md — Foundation and PDF Generation Service
+- [x] 02-01-PLAN.md — Foundation and PDF Generation Service
 - [ ] 02-02-PLAN.md — UI Integration and Verification
 
 **Tasks:**
-- [ ] **Task 2.1:** Install and configure `jsPDF`.
-- [ ] **Task 2.2:** Create a PDF generation service/utility for routing instructions.
+- [x] **Task 2.1:** Install and configure `jsPDF`.
+- [x] **Task 2.2:** Create a PDF generation service/utility for routing instructions.
 - [ ] **Task 2.3:** Add "Download PDF Instructions" button to the UI.
 - [ ] **Task 2.4:** Verify PDF formatting and content accuracy.
 

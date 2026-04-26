@@ -17,11 +17,11 @@
 - [ ] Processing MUST be interruptible by the user.
 
 ### 1.4 PDF Export
-- [ ] System MUST generate a PDF document containing:
-    - [ ] Project summary (Canvas size, nail count, total connections).
-    - [ ] Nail placement guide (Spacing, numbering convention).
-    - [ ] Step-by-step routing instructions (e.g., "Step 1: 0 -> 42").
-- [ ] PDF generation MUST use `jsPDF`.
+- [/] System MUST generate a PDF document containing:
+    - [x] Project summary (Canvas size, nail count, total connections).
+    - [x] Nail placement guide (Spacing, numbering convention).
+    - [x] Step-by-step routing instructions (e.g., "Step 1: 0 -> 42").
+- [x] PDF generation MUST use `jsPDF`.
 
 ### 1.5 Preview & Playback
 - [ ] System MUST provide a real-time preview of the string art generation.
