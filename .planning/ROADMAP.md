@@ -1,17 +1,16 @@
 # Roadmap: String Art Generator Revamp
 
-## Phase 1: Stability & Reliability Fixes
+## Phase 1: Stability & Reliability Fixes (COMPLETE)
 *Goal: Fix existing bugs related to canvas dimension changes and UI responsiveness.*
 
-**Plans:** 2 plans
-- [ ] 01-01-PLAN.md — Core Stability & Async Fixes
-- [ ] 01-02-PLAN.md — Regression Testing
+**Plans:**
+- [x] 01-01-PLAN.md — Core Stability & Regression Testing (Unified)
 
 **Tasks:**
-- [ ] **Task 1.1:** Audit state management for `physicalWidth`, `physicalHeight`, and `imageData`.
-- [ ] **Task 1.2:** Ensure `isProcessing` and `processingRef` are correctly reset on dimension changes.
-- [ ] **Task 1.3:** Fix button responsiveness issues (likely caused by stale state or unhandled async effects).
-- [ ] **Task 1.4:** Add regression tests for dimension changes.
+- [x] **Task 1.1:** Audit state management for `physicalWidth`, `physicalHeight`, and `imageData`.
+- [x] **Task 1.2:** Ensure `isProcessing` and `processingRef` are correctly reset on dimension changes.
+- [x] **Task 1.3:** Fix button responsiveness issues (likely caused by stale state or unhandled async effects).
+- [x] **Task 1.4:** Add regression tests for dimension changes.
 
 ## Phase 2: PDF Export Implementation
 *Goal: Add the requested PDF instruction export feature.*
