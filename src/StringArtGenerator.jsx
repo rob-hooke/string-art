@@ -112,61 +112,65 @@ const StringArtGenerator = () => {
     setStringPath([]);
     setCurrentStep(0);
     
-    const { data, width, height } = imageData;
-    const darknessArray = new Float32Array(width * height);
-    for (let i = 0; i < width * height; i++) {
-      const brightness = (data[i * 4] + data[i * 4 + 1] + data[i * 4 + 2]) / 3;
-      darknessArray[i] = 255 - brightness;
-    }
-    
-    const nails = calculateNailPositions(width, height, nailCount);
-    const path = [];
-    let currentNail = 0;
-    const minDistance = Math.floor(nailCount * 0.1);
-    const lineCache = new Map();
-    
-    for (let iteration = 0; iteration < stringCount; iteration++) {
-      if (!processingRef.current) break;
-      let bestNail = -1, bestScore = -Infinity;
+    try {
+      const { data, width, height } = imageData;
+      const darknessArray = new Float32Array(width * height);
+      for (let i = 0; i < width * height; i++) {
+        const brightness = (data[i * 4] + data[i * 4 + 1] + data[i * 4 + 2]) / 3;
+        darknessArray[i] = 255 - brightness;
+      }
       
-      for (let i = 0; i < nailCount; i++) {
-        const distance = Math.min(Math.abs(i - currentNail), nailCount - Math.abs(i - currentNail));
-        if (distance < minDistance) continue;
+      const nails = calculateNailPositions(width, height, nailCount);
+      const path = [];
+      let currentNail = 0;
+      const minDistance = Math.floor(nailCount * 0.1);
+      const lineCache = new Map();
+      
+      for (let iteration = 0; iteration < stringCount; iteration++) {
+        if (!processingRef.current) break;
+        let bestNail = -1, bestScore = -Infinity;
         
-        const cacheKey = `${Math.min(currentNail, i)}-${Math.max(currentNail, i)}`;
-        let pixels = lineCache.get(cacheKey);
-        if (!pixels) {
-          pixels = getLinePixels(Math.round(nails[currentNail].x), Math.round(nails[currentNail].y), Math.round(nails[i].x), Math.round(nails[i].y));
-          lineCache.set(cacheKey, pixels);
+        for (let i = 0; i < nailCount; i++) {
+          const distance = Math.min(Math.abs(i - currentNail), nailCount - Math.abs(i - currentNail));
+          if (distance < minDistance) continue;
+          
+          const cacheKey = `${Math.min(currentNail, i)}-${Math.max(currentNail, i)}`;
+          let pixels = lineCache.get(cacheKey);
+          if (!pixels) {
+            pixels = getLinePixels(Math.round(nails[currentNail].x), Math.round(nails[currentNail].y), Math.round(nails[i].x), Math.round(nails[i].y));
+            lineCache.set(cacheKey, pixels);
+          }
+          const score = calculateLineScore(pixels, darknessArray, width, height);
+          if (score > bestScore) { bestScore = score; bestNail = i; }
         }
-        const score = calculateLineScore(pixels, darknessArray, width, height);
-        if (score > bestScore) { bestScore = score; bestNail = i; }
-      }
-      
-      if (bestNail === -1) break;
-      
-      const cacheKey = `${Math.min(currentNail, bestNail)}-${Math.max(currentNail, bestNail)}`;
-      const pixels = lineCache.get(cacheKey);
-      for (const pixel of pixels) {
-        if (pixel.x >= 0 && pixel.x < width && pixel.y >= 0 && pixel.y < height) {
-          darknessArray[pixel.y * width + pixel.x] = Math.max(0, darknessArray[pixel.y * width + pixel.x] - 25);
+        
+        if (bestNail === -1) break;
+        
+        const cacheKey = `${Math.min(currentNail, bestNail)}-${Math.max(currentNail, bestNail)}`;
+        const pixels = lineCache.get(cacheKey);
+        for (const pixel of pixels) {
+          if (pixel.x >= 0 && pixel.x < width && pixel.y >= 0 && pixel.y < height) {
+            darknessArray[pixel.y * width + pixel.x] = Math.max(0, darknessArray[pixel.y * width + pixel.x] - 25);
+          }
+        }
+        
+        path.push({ from: currentNail, to: bestNail });
+        currentNail = bestNail;
+        
+        if (iteration % 50 === 0) {
+          setProgress(Math.round((iteration / stringCount) * 100));
+          setStringPath([...path]);
+          await new Promise(resolve => setTimeout(resolve, 0));
+          if (!processingRef.current) return;
         }
       }
       
-      path.push({ from: currentNail, to: bestNail });
-      currentNail = bestNail;
-      
-      if (iteration % 50 === 0) {
-        setProgress(Math.round((iteration / stringCount) * 100));
-        setStringPath([...path]);
-        await new Promise(resolve => setTimeout(resolve, 0));
-      }
+      setStringPath(path);
+      setProgress(100);
+    } finally {
+      setIsProcessing(false);
+      processingRef.current = false;
     }
-    
-    setStringPath(path);
-    setProgress(100);
-    setIsProcessing(false);
-    processingRef.current = false;
   }, [imageData, nailCount, stringCount, calculateNailPositions]);
 
   const handleImageUpload = (e) => {
