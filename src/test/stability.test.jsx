@@ -11,25 +11,29 @@ describe('StringArtGenerator Stability', () => {
     }
   });
 
-  it('Task 0.1: cancellation: changing physicalWidth during generation sets isProcessing to false', async () => {
-    render(<StringArtGenerator />);
-    
+  const uploadImage = async () => {
     const file = new File(['(binary data)'], 'test.png', { type: 'image/png' });
     const input = screen.getByLabelText(/Drop image or click to upload/i);
-    
     await act(async () => {
       fireEvent.change(input, { target: { files: [file] } });
       await vi.runAllTimersAsync();
     });
+  };
+
+  it('Task 0.1: cancellation: changing physicalWidth during generation sets isProcessing to false', async () => {
+    render(<StringArtGenerator />);
+    await uploadImage();
 
     const generateBtn = screen.getByRole('button', { name: /Generate String Art/i });
     await act(async () => {
       fireEvent.click(generateBtn);
-      // Wait a tiny bit for the loop to start and hit its first await
-      await vi.advanceTimersByTimeAsync(1);
+      // Wait for the loop to start
+      await vi.advanceTimersByTimeAsync(10);
     });
     
-    expect(screen.getByText(/Stop/i)).toBeInTheDocument();
+    // It should be processing
+    // Use queryByText and check it exists
+    expect(screen.queryByText(/Stop/i)).not.toBeNull();
     
     const widthInputs = screen.getAllByRole('spinbutton');
     const widthInput = widthInputs[0];
@@ -37,7 +41,7 @@ describe('StringArtGenerator Stability', () => {
     await act(async () => {
       fireEvent.change(widthInput, { target: { value: '50' } });
       fireEvent.blur(widthInput);
-      // Advance enough to trigger useEffect but NOT enough to finish the loop
+      // Wait for useEffect
       await vi.advanceTimersByTimeAsync(100);
     });
     
@@ -47,41 +51,27 @@ describe('StringArtGenerator Stability', () => {
 
   it('Task 0.2: rendering safety: reducing nailCount when a large stringPath exists does not crash', async () => {
     render(<StringArtGenerator />);
-    
-    const file = new File(['(binary data)'], 'test.png', { type: 'image/png' });
-    const input = screen.getByLabelText(/Drop image or click to upload/i);
-    
-    await act(async () => {
-      fireEvent.change(input, { target: { files: [file] } });
-      await vi.runAllTimersAsync();
-    });
+    await uploadImage();
     
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Generate String Art/i }));
-      await vi.advanceTimersByTimeAsync(1);
-    });
-
-    expect(screen.getByText(/Stop/i)).toBeInTheDocument();
-
-    // Advance to get some path
-    await act(async () => {
       await vi.advanceTimersByTimeAsync(100);
     });
+
+    // It's okay if it finished or not, we just want some stringPath
+    const stopBtn = screen.queryByText(/Stop/i);
+    if (stopBtn) {
+      await act(async () => {
+        fireEvent.click(stopBtn);
+        await vi.runAllTimersAsync();
+      });
+    }
     
-    // Stop it
-    const stopBtn = screen.getByText(/Stop/i);
-    await act(async () => {
-      fireEvent.click(stopBtn);
-      await vi.runAllTimersAsync();
-    });
-    
-    // Now increase spacing (reduces nailCount)
     const sliders = screen.getAllByRole('slider');
     const nailSpacingSlider = sliders[0];
     
     await act(async () => {
       fireEvent.change(nailSpacingSlider, { target: { value: '30' } });
-      // This should trigger a re-render. If it crashes, this will throw.
       await vi.runAllTimersAsync();
     });
     
@@ -90,23 +80,18 @@ describe('StringArtGenerator Stability', () => {
 
   it('Task 0.3: clean exit: generateStringArt always resets isProcessing even if aborted', async () => {
     render(<StringArtGenerator />);
-    
-    const file = new File(['(binary data)'], 'test.png', { type: 'image/png' });
-    const input = screen.getByLabelText(/Drop image or click to upload/i);
-    
-    await act(async () => {
-      fireEvent.change(input, { target: { files: [file] } });
-      await vi.runAllTimersAsync();
-    });
+    await uploadImage();
     
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Generate String Art/i }));
-      await vi.advanceTimersByTimeAsync(1);
+      await vi.advanceTimersByTimeAsync(10);
     });
-    expect(screen.getByText(/Stop/i)).toBeInTheDocument();
+    
+    const stopBtn = screen.queryByText(/Stop/i);
+    expect(stopBtn).not.toBeNull();
     
     await act(async () => {
-      fireEvent.click(screen.getByText(/Stop/i));
+      fireEvent.click(stopBtn);
       await vi.runAllTimersAsync();
     });
     

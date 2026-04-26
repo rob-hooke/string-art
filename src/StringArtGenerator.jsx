@@ -248,10 +248,12 @@ const StringArtGenerator = () => {
 
       for (let i = 0; i < targetStep; i++) {
         const line = stringPath[i];
-        ctx.beginPath();
-        ctx.moveTo(nails[line.from].x, nails[line.from].y);
-        ctx.lineTo(nails[line.to].x, nails[line.to].y);
-        ctx.stroke();
+        if (nails[line.from] && nails[line.to]) {
+          ctx.beginPath();
+          ctx.moveTo(nails[line.from].x, nails[line.from].y);
+          ctx.lineTo(nails[line.to].x, nails[line.to].y);
+          ctx.stroke();
+        }
       }
       ctx.globalAlpha = 1;
       lastRenderedStepRef.current = targetStep;
@@ -263,10 +265,12 @@ const StringArtGenerator = () => {
 
       for (let i = lastRenderedStepRef.current; i < targetStep; i++) {
         const line = stringPath[i];
-        ctx.beginPath();
-        ctx.moveTo(nails[line.from].x, nails[line.from].y);
-        ctx.lineTo(nails[line.to].x, nails[line.to].y);
-        ctx.stroke();
+        if (nails[line.from] && nails[line.to]) {
+          ctx.beginPath();
+          ctx.moveTo(nails[line.from].x, nails[line.from].y);
+          ctx.lineTo(nails[line.to].x, nails[line.to].y);
+          ctx.stroke();
+        }
       }
       ctx.globalAlpha = 1;
       lastRenderedStepRef.current = targetStep;

@@ -3,11 +3,16 @@
 ## Current Context
 - **Project:** String Art Generator
 - **Focus:** Revamping requirements for reliability and adding PDF export.
-- **Last Updated:** 2025-01-24
+- **Last Updated:** 2026-04-25
 
 ## Active Phase
 - **Phase:** Initialization
 - **Status:** Requirements and Roadmap defined.
+
+## Quick Tasks
+| ID | Task | Status | Plan |
+|----|------|--------|------|
+| QT-01 | Fix interactive shell hang during test execution | [x] | .planning/quick/20260425-fix-interactive-tests/PLAN.md |
 
 ## Progress Summary
 - [x] Codebase mapping complete.
