@@ -16,6 +16,8 @@ import { jsPDF } from 'jspdf';
 export const generatePdf = (projectData, stringPath) => {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const margin = 20;
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const pageWidth = doc.internal.pageSize.getWidth();
   
   // 1. Project Summary Page
   doc.setFontSize(22);
@@ -46,6 +48,42 @@ export const generatePdf = (projectData, stringPath) => {
   doc.text(`3. Each nail should be approximately ${actualSpacing ? actualSpacing.toFixed(2) : 'N/A'} ${unit} apart.`, margin, y);
   y += 8;
   doc.text("4. Follow the routing steps on the following pages.", margin, y);
+
+  // 2. Routing Instructions (Multi-Column)
+  if (stringPath && stringPath.length > 0) {
+    doc.addPage();
+    doc.setFontSize(18);
+    doc.text("Routing Steps", margin, margin + 10);
+    
+    const colCount = 3;
+    const colGap = 10;
+    const colWidth = (pageWidth - (margin * 2) - (colGap * (colCount - 1))) / colCount;
+    const startY = margin + 25;
+    const bottomMargin = margin;
+    const lineHeight = 5;
+    
+    doc.setFontSize(10);
+    let currentY = startY;
+    let currentCol = 0;
+    
+    stringPath.forEach((step, i) => {
+      // Check if we need to wrap to next column or next page
+      if (currentY > pageHeight - bottomMargin) {
+        if (currentCol < colCount - 1) {
+          currentCol++;
+          currentY = startY;
+        } else {
+          doc.addPage();
+          currentCol = 0;
+          currentY = margin + 10; // Start higher on subsequent pages
+        }
+      }
+      
+      const x = margin + (currentCol * (colWidth + colGap));
+      doc.text(`${i + 1}. ${step.from} -> ${step.to}`, x, currentY);
+      currentY += lineHeight;
+    });
+  }
 
   return doc;
 };
