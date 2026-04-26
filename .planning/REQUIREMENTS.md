@@ -17,7 +17,7 @@
 - [ ] Processing MUST be interruptible by the user.
 
 ### 1.4 PDF Export
-- [/] System MUST generate a PDF document containing:
+- [x] System MUST generate a PDF document containing:
     - [x] Project summary (Canvas size, nail count, total connections).
     - [x] Nail placement guide (Spacing, numbering convention).
     - [x] Step-by-step routing instructions (e.g., "Step 1: 0 -> 42").

@@ -7,10 +7,11 @@
 
 ## Active Phase
 - **Phase:** Phase 2: PDF Export & UI Revamp
-- **Status:** In Progress.
+- **Status:** Complete.
 
 ## Wave Progress
 - **Wave 1:** Core PDF Generation (Complete)
+- **Wave 2:** UI Integration & Verification (Complete)
 
 ## Quick Tasks
 | ID | Task | Status | Plan |
@@ -24,12 +25,14 @@
 - [x] Phase-based roadmap created.
 - [x] Phase 1: Stability & Reliability Fixes complete.
 - [x] Phase 2, Plan 1: Core PDF Export Implementation complete.
+- [x] Phase 2, Plan 2: UI Integration of PDF Export complete.
 
 ## Key Decisions
 - **PDF Library:** Selected `jsPDF` as per user preference for standard web PDF generation.
 - **Aesthetic:** Minimalist design chosen for the UI revamp.
 - **Reliability:** Priority given to fixing canvas size change bugs before adding new features.
 - **PDF Layout:** Used manual coordinate tracking for 3-column PDF layout to maximize space efficiency for large instruction sets.
+- **Unit Consistency:** Decided to convert internal spacing (mm) to the user's selected unit (cm/in) at the point of PDF export to ensure the document matches the UI's display.
 
 ## Next Steps
-1. Execute Wave 2 of Phase 2: Integration of PDF Export into the UI.
+1. Transition to Phase 3: Minimalist UI Refinement.
