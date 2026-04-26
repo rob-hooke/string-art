@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import { generatePdf } from './services/pdfExportService';
 
 const StringArtGenerator = () => {
   const [image, setImage] = useState(null);
@@ -16,6 +17,7 @@ const StringArtGenerator = () => {
   
   const [stringCount, setStringCount] = useState(2000);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
   const [progress, setProgress] = useState(0);
   const [stringPath, setStringPath] = useState([]);
   const [showOverlay, setShowOverlay] = useState(true);
@@ -365,6 +367,34 @@ const StringArtGenerator = () => {
 
   const stopProcessing = () => { processingRef.current = false; setIsProcessing(false); };
 
+  const handleDownloadPdf = async () => {
+    if (stringPath.length === 0) return;
+    setIsExportingPdf(true);
+    
+    // Small delay to allow UI to update (show loading state)
+    await new Promise(resolve => setTimeout(resolve, 50));
+    
+    try {
+      const projectData = {
+        physicalWidth,
+        physicalHeight,
+        unit,
+        nailCount,
+        actualSpacing: unit === 'cm' ? actualSpacing / 10 : actualSpacing / 25.4,
+        stringCount: stringPath.length
+      };
+      
+      const doc = generatePdf(projectData, stringPath);
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+      doc.save(`string-art-instructions-${timestamp}.pdf`);
+    } catch (error) {
+      console.error("PDF Export failed:", error);
+      alert("Failed to generate PDF. Check console for details.");
+    } finally {
+      setIsExportingPdf(false);
+    }
+  };
+
   const exportInstructions = () => {
     if (stringPath.length === 0) return;
     const dimStr = unit === 'cm' ? `${physicalWidth}cm x ${physicalHeight}cm` : `${physicalWidth}" x ${physicalHeight}"`;
@@ -628,7 +658,10 @@ const StringArtGenerator = () => {
             
             {stringPath.length > 0 && (
               <div style={{ display: 'grid', gap: 8 }}>
-                <button className="btn btn-secondary" onClick={exportInstructions}>📄 Export Instructions</button>
+                <button className="btn btn-secondary" onClick={handleDownloadPdf} disabled={isExportingPdf}>
+                  {isExportingPdf ? '⌛ Generating PDF...' : '📄 Download PDF Instructions'}
+                </button>
+                <button className="btn btn-secondary" onClick={exportInstructions}>📝 Export Plain Text</button>
                 <button className="btn btn-secondary" onClick={exportOverlay}>🖼 Export Nail Overlay</button>
               </div>
             )}
