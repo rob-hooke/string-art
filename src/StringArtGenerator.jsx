@@ -173,6 +173,14 @@ const StringArtGenerator = () => {
     }
   }, [imageData, nailCount, stringCount, calculateNailPositions]);
 
+  // Abort generation if critical parameters change
+  useEffect(() => {
+    processingRef.current = false;
+    setIsProcessing(false);
+    setStringPath([]);
+    setCurrentStep(0);
+  }, [physicalWidth, physicalHeight, unit, nailSpacing, imageData]);
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
