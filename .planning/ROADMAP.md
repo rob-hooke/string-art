@@ -14,6 +14,12 @@
 
 ## Phase 2: PDF Export Implementation
 *Goal: Add the requested PDF instruction export feature.*
+
+**Plans:**
+- [ ] 02-01-PLAN.md — Foundation and PDF Generation Service
+- [ ] 02-02-PLAN.md — UI Integration and Verification
+
+**Tasks:**
 - [ ] **Task 2.1:** Install and configure `jsPDF`.
 - [ ] **Task 2.2:** Create a PDF generation service/utility for routing instructions.
 - [ ] **Task 2.3:** Add "Download PDF Instructions" button to the UI.
