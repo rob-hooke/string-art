@@ -3,18 +3,18 @@
 ## 1. Functional Requirements
 
 ### 1.1 Canvas & Dimensions
-- [ ] Users MUST be able to specify physical width and height of the canvas.
-- [ ] Users MUST be able to toggle between cm and inches.
-- [ ] Changing canvas dimensions MUST reliably update the preview and reset the processing state without breaking UI controls.
+- [x] Users MUST be able to specify physical width and height of the canvas.
+- [x] Users MUST be able to toggle between cm and inches.
+- [x] Changing canvas dimensions MUST reliably update the preview and reset the processing state without breaking UI controls.
 
 ### 1.2 Nail Management
-- [ ] System MUST calculate nail positions based on perimeter and nail spacing (mm).
-- [ ] System MUST prevent invalid nail configurations (e.g., spacing too small for canvas).
+- [x] System MUST calculate nail positions based on perimeter and nail spacing (mm).
+- [x] System MUST prevent invalid nail configurations (e.g., spacing too small for canvas).
 
 ### 1.3 String Routing Algorithm
-- [ ] System MUST use a greedy algorithm to find the optimal string path.
-- [ ] Users MUST be able to set the total number of string connections.
-- [ ] Processing MUST be interruptible by the user.
+- [x] System MUST use a greedy algorithm to find the optimal string path.
+- [x] Users MUST be able to set the total number of string connections.
+- [x] Processing MUST be interruptible by the user.
 
 ### 1.4 PDF Export
 - [x] System MUST generate a PDF document containing:
@@ -24,23 +24,23 @@
 - [x] PDF generation MUST use `jsPDF`.
 
 ### 1.5 Preview & Playback
-- [ ] System MUST provide a real-time preview of the string art generation.
-- [ ] System MUST include playback controls (Play/Pause, Seek) for the routing path.
+- [x] System MUST provide a real-time preview of the string art generation.
+- [x] System MUST include playback controls (Play/Pause, Seek) for the routing path.
 
 ## 2. Non-Functional Requirements
 
 ### 2.1 Reliability
-- [ ] UI buttons MUST remain responsive after any configuration change.
-- [ ] State resets MUST be clean and complete when new images are uploaded or dimensions changed.
+- [x] UI buttons MUST remain responsive after any configuration change.
+- [x] State resets MUST be clean and complete when new images are uploaded or dimensions changed.
 
 ### 2.2 Performance
-- [ ] String path calculation MUST be performant enough for up to 3000 connections on a standard browser.
-- [ ] Canvas rendering MUST be optimized (e.g., incremental drawing).
+- [x] String path calculation MUST be performant enough for up to 3000 connections on a standard browser.
+- [x] Canvas rendering MUST be optimized (e.g., incremental drawing).
 
 ### 2.3 Aesthetics
-- [ ] UI MUST follow a **minimalist** design pattern.
-- [ ] Clean layout with clear grouping of controls and preview.
+- [x] UI MUST follow a **minimalist** design pattern.
+- [x] Clean layout with clear grouping of controls and preview.
 
 ## 3. Technical Constraints
-- [ ] Must be compatible with modern browsers.
-- [ ] Must support WSL development environments as per existing setup scripts.
+- [x] Must be compatible with modern browsers.
+- [x] Must support WSL development environments as per existing setup scripts.
