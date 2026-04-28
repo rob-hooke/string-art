@@ -39,5 +39,11 @@
 
 ## Phase 4: Final Polish & Documentation
 *Goal: Ensure the project is well-documented and ready for use.*
-- [ ] **Task 4.1:** Update `README.md` with new features and usage instructions.
-- [ ] **Task 4.2:** Final E2E testing of the entire workflow.
+
+**Plans:** 1 plan
+- [ ] 04-01-PLAN.md — Final Polish & Documentation (Docs, QA, Cleanup)
+
+**Tasks:**
+- [ ] **Task 4.1:** Update `README.md` with new features and physical guide.
+- [ ] **Task 4.2:** Final E2E audit of the entire workflow.
+- [ ] **Task 4.3:** Cleanup unused metadata and debug logs.
