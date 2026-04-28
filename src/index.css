@@ -289,6 +289,28 @@ body {
   line-height: 1.6;
 }
 
+.is-loading {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+  color: white;
+  font-weight: bold;
+  z-index: 10;
+  border-radius: var(--radius-sm);
+}
+
 .flex-col-center {
   display: flex;
   flex-direction: column;

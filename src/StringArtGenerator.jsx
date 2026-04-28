@@ -532,16 +532,16 @@ const StringArtGenerator = () => {
             
             <div className="grid-2-col">
               <div>
-                <label className="label-sub">WIDTH ({unit})</label>
-                <input type="number" className="input-number" value={physicalWidth} onChange={(e) => setPhysicalWidth(parseFloat(e.target.value) || '')} onBlur={(e) => setPhysicalWidth(Math.max(5, Math.min(200, parseFloat(e.target.value) || 40)))} min="5" max="200" />
+                <label className="label-sub" htmlFor="input-width">WIDTH ({unit})</label>
+                <input id="input-width" type="number" className="input-number" value={physicalWidth} onChange={(e) => setPhysicalWidth(parseFloat(e.target.value) || '')} onBlur={(e) => setPhysicalWidth(Math.max(5, Math.min(200, parseFloat(e.target.value) || 40)))} min="5" max="200" aria-label={`Canvas width in ${unit}`} />
               </div>
               <div>
-                <label className="label-sub">HEIGHT ({unit})</label>
-                <input type="number" className="input-number" value={physicalHeight} onChange={(e) => setPhysicalHeight(parseFloat(e.target.value) || '')} onBlur={(e) => setPhysicalHeight(Math.max(5, Math.min(200, parseFloat(e.target.value) || 40)))} min="5" max="200" />
+                <label className="label-sub" htmlFor="input-height">HEIGHT ({unit})</label>
+                <input id="input-height" type="number" className="input-number" value={physicalHeight} onChange={(e) => setPhysicalHeight(parseFloat(e.target.value) || '')} onBlur={(e) => setPhysicalHeight(Math.max(5, Math.min(200, parseFloat(e.target.value) || 40)))} min="5" max="200" aria-label={`Canvas height in ${unit}`} />
               </div>
             </div>
             
-            <div className="info-box">
+            <div className="info-box" role="status" aria-live="polite">
               <div className="stat-row"><span className="stat-label">Perimeter</span><span className="stat-value">{unit === 'cm' ? `${(perimeterMm / 10).toFixed(1)} cm` : `${(perimeterMm / 25.4).toFixed(1)}"`}</span></div>
               <div className="stat-row"><span className="stat-label">Total Nails</span><span className="stat-value">{nailCount}</span></div>
               <div className="stat-row"><span className="stat-label">Actual Spacing</span><span className="stat-value">{actualSpacing.toFixed(1)} mm</span></div>
@@ -552,10 +552,10 @@ const StringArtGenerator = () => {
             
             <div className="mb-md">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>NAIL SPACING</label>
+                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }} htmlFor="nail-spacing">NAIL SPACING</label>
                 <span className="quality-badge" style={{ background: spacingQuality.color }}>{spacingQuality.label}</span>
               </div>
-              <input type="range" className="input-range" min={MIN_NAIL_SPACING} max={MAX_NAIL_SPACING} step="0.5" value={nailSpacing} onChange={(e) => setNailSpacing(parseFloat(e.target.value))} />
+              <input id="nail-spacing" type="range" className="input-range" min={MIN_NAIL_SPACING} max={MAX_NAIL_SPACING} step="0.5" value={nailSpacing} onChange={(e) => setNailSpacing(parseFloat(e.target.value))} aria-label="Nail spacing in millimeters" />
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
                 <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>{MIN_NAIL_SPACING}mm</span>
                 <span style={{ fontSize: 12, color: '#e94560' }}>{nailSpacing} mm → {nailCount} nails</span>
@@ -565,29 +565,30 @@ const StringArtGenerator = () => {
             </div>
             
             <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-              <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(10)}>Recommended ({recommendedNails})</button>
-              <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(7)}>High Detail</button>
-              <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(15)}>Easy</button>
+              <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(10)} aria-label="Set recommended nail spacing">Recommended ({recommendedNails})</button>
+              <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(7)} aria-label="Set high detail nail spacing">High Detail</button>
+              <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(15)} aria-label="Set easy nail spacing">Easy</button>
             </div>
           </section>
 
-          <section className="panel card-preview">
+          <section className="panel card-preview" aria-busy={isProcessing}>
             <h2 className="section-title">Preview</h2>
             <div className="flex-col-center">
-              <div className="canvas-container">
-                <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} style={{ display: 'block' }} />
+              <div className={`canvas-container ${isProcessing ? 'is-loading' : ''}`}>
+                <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} style={{ display: 'block' }} aria-label="String art preview canvas" />
                 <canvas ref={overlayCanvasRef} width={canvasWidth} height={canvasHeight} style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }} />
+                {isProcessing && <div className="loading-overlay">Generating...</div>}
               </div>
               
               {stringPath.length > 0 && (
                 <div style={{ width: '100%', maxWidth: canvasWidth }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { if (isPlaying) setIsPlaying(false); else { if (currentStep >= stringPath.length) setCurrentStep(0); setIsPlaying(true); } }}>{isPlaying ? '⏸' : '▶'}</button>
-                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { setCurrentStep(0); setIsPlaying(false); }}>⏮</button>
-                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => setCurrentStep(stringPath.length)}>⏭</button>
-                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>Step {currentStep || stringPath.length} / {stringPath.length}</span>
+                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { if (isPlaying) setIsPlaying(false); else { if (currentStep >= stringPath.length) setCurrentStep(0); setIsPlaying(true); } }} aria-label={isPlaying ? "Pause playback" : "Play playback"}>{isPlaying ? '⏸' : '▶'}</button>
+                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { setCurrentStep(0); setIsPlaying(false); }} aria-label="Reset to start">⏮</button>
+                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => setCurrentStep(stringPath.length)} aria-label="Skip to end">⏭</button>
+                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }} role="status">Step {currentStep || stringPath.length} / {stringPath.length}</span>
                   </div>
-                  <input type="range" className="input-range" min="0" max={stringPath.length} value={currentStep || stringPath.length} onChange={(e) => { setIsPlaying(false); setCurrentStep(parseInt(e.target.value)); }} />
+                  <input type="range" className="input-range" min="0" max={stringPath.length} value={currentStep || stringPath.length} onChange={(e) => { setIsPlaying(false); setCurrentStep(parseInt(e.target.value)); }} aria-label="Playback seek bar" />
                 </div>
               )}
             </div>
@@ -598,7 +599,7 @@ const StringArtGenerator = () => {
             
             <div className="mb-lg">
               <label className="upload-zone" style={{ display: 'block' }}>
-                <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
+                <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} aria-label="Upload image" />
                 <div style={{ fontSize: 28, marginBottom: 6 }}>📷</div>
                 <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>{image ? 'Click to change image' : 'Drop image or click to upload'}</div>
               </label>
@@ -606,41 +607,41 @@ const StringArtGenerator = () => {
             
             <div className="mb-lg">
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>STRING CONNECTIONS</label>
+                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }} htmlFor="string-connections">STRING CONNECTIONS</label>
                 <span style={{ fontSize: 12, color: '#e94560' }}>{stringCount}</span>
               </div>
-              <input type="range" className="input-range" min="500" max="5000" step="100" value={stringCount} onChange={(e) => setStringCount(parseInt(e.target.value))} />
+              <input id="string-connections" type="range" className="input-range" min="500" max="5000" step="100" value={stringCount} onChange={(e) => setStringCount(parseInt(e.target.value))} aria-label="Number of string connections" />
             </div>
             
             <div className="mb-lg">
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>LINE OPACITY</label>
+                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }} htmlFor="line-opacity">LINE OPACITY</label>
                 <span style={{ fontSize: 12, color: '#e94560' }}>{(lineOpacity * 100).toFixed(0)}%</span>
               </div>
-              <input type="range" className="input-range" min="0.05" max="0.5" step="0.01" value={lineOpacity} onChange={(e) => setLineOpacity(parseFloat(e.target.value))} />
+              <input id="line-opacity" type="range" className="input-range" min="0.05" max="0.5" step="0.01" value={lineOpacity} onChange={(e) => setLineOpacity(parseFloat(e.target.value))} aria-label="Line opacity" />
             </div>
             
             <div className="grid-2-col">
               <div>
-                <label className="label-sub">STRING</label>
-                <input type="color" value={stringColor} onChange={(e) => setStringColor(e.target.value)} style={{ width: '100%', height: 36, border: 'none', borderRadius: 6, cursor: 'pointer' }} />
+                <label className="label-sub" htmlFor="string-color">STRING</label>
+                <input id="string-color" type="color" value={stringColor} onChange={(e) => setStringColor(e.target.value)} style={{ width: '100%', height: 36, border: 'none', borderRadius: 6, cursor: 'pointer' }} aria-label="String color" />
               </div>
               <div>
-                <label className="label-sub">BACKGROUND</label>
-                <input type="color" value={backgroundColor} onChange={(e) => setBackgroundColor(e.target.value)} style={{ width: '100%', height: 36, border: 'none', borderRadius: 6, cursor: 'pointer' }} />
+                <label className="label-sub" htmlFor="bg-color">BACKGROUND</label>
+                <input id="bg-color" type="color" value={backgroundColor} onChange={(e) => setBackgroundColor(e.target.value)} style={{ width: '100%', height: 36, border: 'none', borderRadius: 6, cursor: 'pointer' }} aria-label="Background color" />
               </div>
             </div>
             
             <div className="mb-lg">
-              <label className="checkbox-label" style={{ marginBottom: 10 }}><input type="checkbox" checked={showOverlay} onChange={(e) => setShowOverlay(e.target.checked)} /><span style={{ fontSize: 13 }}>Show nail markers</span></label>
-              <label className="checkbox-label"><input type="checkbox" checked={showImage} onChange={(e) => setShowImage(e.target.checked)} /><span style={{ fontSize: 13 }}>Show source image</span></label>
+              <label className="checkbox-label" style={{ marginBottom: 10 }}><input type="checkbox" checked={showOverlay} onChange={(e) => setShowOverlay(e.target.checked)} aria-label="Show nail markers" /><span style={{ fontSize: 13 }}>Show nail markers</span></label>
+              <label className="checkbox-label"><input type="checkbox" checked={showImage} onChange={(e) => setShowImage(e.target.checked)} aria-label="Show source image" /><span style={{ fontSize: 13 }}>Show source image</span></label>
             </div>
             
-            <button className="btn btn-primary" style={{ width: '100%', marginBottom: 12 }} onClick={isProcessing ? stopProcessing : generateStringArt} disabled={!imageData}>{isProcessing ? '⏹ Stop' : '▶ Generate String Art'}</button>
+            <button className="btn btn-primary" style={{ width: '100%', marginBottom: 12 }} onClick={isProcessing ? stopProcessing : generateStringArt} disabled={!imageData} aria-label={isProcessing ? "Stop generation" : "Start string art generation"}>{isProcessing ? '⏹ Stop' : '▶ Generate String Art'}</button>
             
             {isProcessing && (
-              <div className="mb-md">
-                <div className="progress-bar"><div className="progress-fill" style={{ width: `${progress}%` }} /></div>
+              <div className="mb-md" role="status" aria-live="polite">
+                <div className="progress-bar"><div className="progress-fill" style={{ width: `${progress}%` }} aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100" /></div>
                 <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 6, textAlign: 'center' }}>Processing... {progress}%</div>
               </div>
             )}
