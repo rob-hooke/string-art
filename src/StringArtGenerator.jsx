@@ -581,14 +581,16 @@ const StringArtGenerator = () => {
               </div>
               
               {stringPath.length > 0 && (
-                <div style={{ width: '100%', maxWidth: canvasWidth }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { if (isPlaying) setIsPlaying(false); else { if (currentStep >= stringPath.length) setCurrentStep(0); setIsPlaying(true); } }} aria-label={isPlaying ? "Pause playback" : "Play playback"}>{isPlaying ? '⏸' : '▶'}</button>
-                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { setCurrentStep(0); setIsPlaying(false); }} aria-label="Reset to start">⏮</button>
-                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => setCurrentStep(stringPath.length)} aria-label="Skip to end">⏭</button>
-                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }} role="status">Step {currentStep || stringPath.length} / {stringPath.length}</span>
+                <div className="playback-controls" style={{ maxWidth: canvasWidth }}>
+                  <div style={{ display: 'flex', gap: 4 }}>
+                    <button className="btn btn-secondary" style={{ padding: '8px 12px' }} onClick={() => { if (isPlaying) setIsPlaying(false); else { if (currentStep >= stringPath.length) setCurrentStep(0); setIsPlaying(true); } }} aria-label={isPlaying ? "Pause playback" : "Play playback"}>{isPlaying ? '⏸' : '▶'}</button>
+                    <button className="btn btn-secondary" style={{ padding: '8px 12px' }} onClick={() => { setCurrentStep(0); setIsPlaying(false); }} aria-label="Reset to start">⏮</button>
                   </div>
-                  <input type="range" className="input-range" min="0" max={stringPath.length} value={currentStep || stringPath.length} onChange={(e) => { setIsPlaying(false); setCurrentStep(parseInt(e.target.value)); }} aria-label="Playback seek bar" />
+                  <div className="playback-info">
+                    <input type="range" className="input-range" min="0" max={stringPath.length} value={currentStep || stringPath.length} onChange={(e) => { setIsPlaying(false); setCurrentStep(parseInt(e.target.value)); }} aria-label="Playback seek bar" />
+                    <div className="playback-step" role="status">Step {currentStep || stringPath.length} / {stringPath.length}</div>
+                  </div>
+                  <button className="btn btn-secondary" style={{ padding: '8px 12px' }} onClick={() => setCurrentStep(stringPath.length)} aria-label="Skip to end">⏭</button>
                 </div>
               )}
             </div>
