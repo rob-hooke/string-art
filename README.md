@@ -6,16 +6,18 @@ Transform any image into physical string art with numbered nail positions and st
 
 ## Features
 
+- **Minimalist Bento Grid UI** — clean, organized layout for all controls and previews
 - **Physical canvas dimensions** — enter your actual canvas size in cm or inches
 - **Smart nail spacing** — set spacing in mm (5-30mm), automatically calculates nail count
 - **Spacing quality indicator** — shows if spacing is optimal, tight, or relaxed
 - **Recommended presets** — quick buttons for recommended, high-detail, or easy spacing
 - **Upload any image** — automatically converts to grayscale for processing
-- **Real-time preview** — watch the string art build with playback controls
+- **Real-time playback** — watch the string art build with play/pause and seek controls
 - **Nail overlay** — numbered positions starting from top-left, going clockwise
 - **Export options:**
-  - Step-by-step routing instructions with nail counts per edge (TXT)
-  - Printable nail overlay template with dimensions (PNG)
+  - **PDF Instructions** — high-quality document with project summary and routing steps
+  - **Step-by-step routing** — raw text file with nail counts per edge (TXT)
+  - **Nail overlay template** — printable image with numbered positions (PNG)
 
 ## Nail Spacing Guide
 
@@ -36,6 +38,24 @@ The algorithm uses a greedy approach:
 3. Starting at nail 0, finds which nail connection creates the darkest line
 4. "Subtracts" that line from the image and repeats
 5. Outputs the complete routing path
+
+## Creating Physical String Art
+
+### 1. Materials
+- **Base:** 12-18mm MDF or Birch Plywood. Avoid pine or softwoods.
+- **Nails:** 20mm–30mm panel pins or linoleum nails (small heads are better).
+- **String:** #69 Bonded Nylon or high-quality Polyester thread (0.15mm).
+
+### 2. Preparation
+- **Generate** — Upload your image and adjust settings until satisfied.
+- **Export overlay** — Download the "Nail Overlay" (PNG).
+- **Positioning** — Print the overlay at your exact physical size. Tape it to the board.
+
+### 3. Execution
+- **Hammering** — Drive nails through the marks on the template. Ensure they are straight.
+- **Precision Wand** — Use an empty ballpoint pen barrel. Thread the string through it to use as a "wand" for fast, high-tension routing.
+- **Routing** — Follow the PDF instructions (e.g., "0 → 142 → 67 → ...").
+- **Locking** — Every 20–30 steps, wrap the string 360° around a nail to prevent the whole work from unraveling if you drop the thread.
 
 ## Getting Started
 
@@ -149,13 +169,6 @@ source ~/.bashrc
 # Add to package.json scripts or run directly
 npm run dev -- --force
 ```
-
-## Creating Physical String Art
-
-1. **Generate** — Upload your image and adjust settings
-2. **Export overlay** — Download the nail position template
-3. **Print & mark** — Print the overlay at your canvas size, use it to position nails
-4. **Route string** — Follow the numbered instructions (e.g., "0 → 142 → 67 → ...")
 
 ## Tips
 
