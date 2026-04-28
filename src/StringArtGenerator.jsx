@@ -513,46 +513,11 @@ const StringArtGenerator = () => {
   const spacingQuality = getSpacingQuality();
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)', fontFamily: "'JetBrains Mono', monospace", color: '#e8e8e8', padding: '24px' }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-        * { box-sizing: border-box; }
-        .panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; backdrop-filter: blur(10px); }
-        .btn { padding: 10px 20px; border: none; border-radius: 8px; font-family: inherit; font-weight: 500; font-size: 13px; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
-        .btn-primary { background: linear-gradient(135deg, #e94560, #ff6b6b); color: white; box-shadow: 0 4px 15px rgba(233,69,96,0.3); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.4); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .btn-secondary { background: rgba(255,255,255,0.1); color: #e8e8e8; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
-        .input-range { -webkit-appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; }
-        .input-range::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: #e94560; border-radius: 50%; cursor: pointer; }
-        .input-number { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 8px 12px; color: #e8e8e8; font-family: inherit; font-size: 14px; width: 100%; outline: none; }
-        .input-number:focus { border-color: #e94560; }
-        .checkbox-label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-        .checkbox-label input { width: 18px; height: 18px; accent-color: #e94560; }
-        .step-display { font-size: 11px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; max-height: 200px; overflow-y: auto; }
-        .step-item { padding: 4px 8px; border-radius: 4px; margin: 2px 0; }
-        .step-item.current { background: rgba(233,69,96,0.3); border-left: 3px solid #e94560; }
-        .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #e94560, #ff6b6b); transition: width 0.3s; }
-        .canvas-container { position: relative; display: inline-block; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .upload-zone { border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.2s; }
-        .upload-zone:hover { border-color: #e94560; background: rgba(233,69,96,0.05); }
-        .info-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px; margin-bottom: 16px; }
-        .stat-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
-        .stat-label { color: rgba(255,255,255,0.5); }
-        .stat-value { color: #e94560; font-weight: 500; }
-        .unit-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden; }
-        .unit-toggle button { flex: 1; padding: 6px 12px; border: none; background: transparent; color: rgba(255,255,255,0.6); font-family: inherit; font-size: 12px; cursor: pointer; }
-        .unit-toggle button.active { background: #e94560; color: white; }
-        .quality-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
-      `}</style>
-      
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 42, fontWeight: 700, margin: 0, background: 'linear-gradient(135deg, #e94560, #ff6b6b, #ffc371)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>STRING ART GENERATOR</h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 8, fontSize: 14, letterSpacing: '2px', textTransform: 'uppercase' }}>Transform any image into routable string art</p>
-        </div>
+    <div className="container">
+      <header className="header">
+        <h1>STRING ART GENERATOR</h1>
+        <p>Transform any image into routable string art</p>
+      </header>
         
         <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr', gap: 24 }}>
           <div className="panel" style={{ padding: 24, height: 'fit-content' }}>
