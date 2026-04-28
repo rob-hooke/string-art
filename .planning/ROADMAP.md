@@ -3,7 +3,7 @@
 ## Phase 1: Stability & Reliability Fixes (COMPLETE)
 *Goal: Fix existing bugs related to canvas dimension changes and UI responsiveness.*
 
-**Plans:**
+**Plans:** 1 plan
 - [x] 01-01-PLAN.md — Core Stability & Regression Testing (Unified)
 
 **Tasks:**
@@ -15,7 +15,7 @@
 ## Phase 2: PDF Export Implementation (COMPLETE)
 *Goal: Add the requested PDF instruction export feature.*
 
-**Plans:**
+**Plans:** 2 plans
 - [x] 02-01-PLAN.md — Foundation and PDF Generation Service
 - [x] 02-02-PLAN.md — UI Integration and Verification
 
@@ -27,9 +27,15 @@
 
 ## Phase 3: Minimalist UI Refinement
 *Goal: Align the UI with the minimalist aesthetic and improve user experience.*
-- [ ] **Task 3.1:** Simplify control panels and typography.
-- [ ] **Task 3.2:** Improve responsive layout for different screen sizes.
-- [ ] **Task 3.3:** Add loading indicators and clearer status messages.
+
+**Plans:** 1 plan
+- [ ] 03-01-PLAN.md — Minimalist UI Refinement (Bento Grid, A11y, Playback)
+
+**Tasks:**
+- [ ] **Task 3.1:** Extract inline styles to CSS and implement Bento Grid.
+- [ ] **Task 3.2:** Improve typography, spacing, and accessibility (ARIA).
+- [ ] **Task 3.3:** Implement responsive design and loading states.
+- [ ] **Task 3.4:** Implement playback controls (Play/Pause, Seek bar) for routing path.
 
 ## Phase 4: Final Polish & Documentation
 *Goal: Ensure the project is well-documented and ready for use.*
