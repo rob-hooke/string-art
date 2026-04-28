@@ -519,24 +519,24 @@ const StringArtGenerator = () => {
         <p>Transform any image into routable string art</p>
       </header>
         
-        <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr', gap: 24 }}>
-          <div className="panel" style={{ padding: 24, height: 'fit-content' }}>
-            <h2 style={{ fontSize: 14, textTransform: 'uppercase', letterSpacing: '2px', color: 'rgba(255,255,255,0.6)', marginTop: 0, marginBottom: 20 }}>Canvas Dimensions</h2>
+        <div className="bento-grid">
+          <section className="panel card-dimensions">
+            <h2 className="section-title">Canvas Dimensions</h2>
             
-            <div style={{ marginBottom: 16 }}>
+            <div className="mb-md">
               <div className="unit-toggle">
                 <button className={unit === 'cm' ? 'active' : ''} onClick={() => setUnit('cm')}>Centimeters</button>
                 <button className={unit === 'in' ? 'active' : ''} onClick={() => setUnit('in')}>Inches</button>
               </div>
             </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+            <div className="grid-2-col">
               <div>
-                <label style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: 6 }}>WIDTH ({unit})</label>
+                <label className="label-sub">WIDTH ({unit})</label>
                 <input type="number" className="input-number" value={physicalWidth} onChange={(e) => setPhysicalWidth(parseFloat(e.target.value) || '')} onBlur={(e) => setPhysicalWidth(Math.max(5, Math.min(200, parseFloat(e.target.value) || 40)))} min="5" max="200" />
               </div>
               <div>
-                <label style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: 6 }}>HEIGHT ({unit})</label>
+                <label className="label-sub">HEIGHT ({unit})</label>
                 <input type="number" className="input-number" value={physicalHeight} onChange={(e) => setPhysicalHeight(parseFloat(e.target.value) || '')} onBlur={(e) => setPhysicalHeight(Math.max(5, Math.min(200, parseFloat(e.target.value) || 40)))} min="5" max="200" />
               </div>
             </div>
@@ -548,9 +548,9 @@ const StringArtGenerator = () => {
               <div className="stat-row"><span className="stat-label">Nail Range</span><span className="stat-value">{minNails} – {maxNails}</span></div>
             </div>
             
-            <h2 style={{ fontSize: 14, textTransform: 'uppercase', letterSpacing: '2px', color: 'rgba(255,255,255,0.6)', marginTop: 24, marginBottom: 16 }}>Nail Configuration</h2>
+            <h2 className="section-title mt-lg">Nail Configuration</h2>
             
-            <div style={{ marginBottom: 16 }}>
+            <div className="mb-md">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                 <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>NAIL SPACING</label>
                 <span className="quality-badge" style={{ background: spacingQuality.color }}>{spacingQuality.label}</span>
@@ -569,10 +569,34 @@ const StringArtGenerator = () => {
               <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(7)}>High Detail</button>
               <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(15)}>Easy</button>
             </div>
+          </section>
+
+          <section className="panel card-preview">
+            <h2 className="section-title">Preview</h2>
+            <div className="flex-col-center">
+              <div className="canvas-container">
+                <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} style={{ display: 'block' }} />
+                <canvas ref={overlayCanvasRef} width={canvasWidth} height={canvasHeight} style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }} />
+              </div>
+              
+              {stringPath.length > 0 && (
+                <div style={{ width: '100%', maxWidth: canvasWidth }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { if (isPlaying) setIsPlaying(false); else { if (currentStep >= stringPath.length) setCurrentStep(0); setIsPlaying(true); } }}>{isPlaying ? '⏸' : '▶'}</button>
+                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { setCurrentStep(0); setIsPlaying(false); }}>⏮</button>
+                    <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => setCurrentStep(stringPath.length)}>⏭</button>
+                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>Step {currentStep || stringPath.length} / {stringPath.length}</span>
+                  </div>
+                  <input type="range" className="input-range" min="0" max={stringPath.length} value={currentStep || stringPath.length} onChange={(e) => { setIsPlaying(false); setCurrentStep(parseInt(e.target.value)); }} />
+                </div>
+              )}
+            </div>
+          </section>
+
+          <section className="panel card-controls">
+            <h2 className="section-title">Image & String</h2>
             
-            <h2 style={{ fontSize: 14, textTransform: 'uppercase', letterSpacing: '2px', color: 'rgba(255,255,255,0.6)', marginTop: 24, marginBottom: 16 }}>Image & String</h2>
-            
-            <div style={{ marginBottom: 20 }}>
+            <div className="mb-lg">
               <label className="upload-zone" style={{ display: 'block' }}>
                 <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
                 <div style={{ fontSize: 28, marginBottom: 6 }}>📷</div>
@@ -580,7 +604,7 @@ const StringArtGenerator = () => {
               </label>
             </div>
             
-            <div style={{ marginBottom: 20 }}>
+            <div className="mb-lg">
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                 <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>STRING CONNECTIONS</label>
                 <span style={{ fontSize: 12, color: '#e94560' }}>{stringCount}</span>
@@ -588,7 +612,7 @@ const StringArtGenerator = () => {
               <input type="range" className="input-range" min="500" max="5000" step="100" value={stringCount} onChange={(e) => setStringCount(parseInt(e.target.value))} />
             </div>
             
-            <div style={{ marginBottom: 20 }}>
+            <div className="mb-lg">
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                 <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>LINE OPACITY</label>
                 <span style={{ fontSize: 12, color: '#e94560' }}>{(lineOpacity * 100).toFixed(0)}%</span>
@@ -596,18 +620,18 @@ const StringArtGenerator = () => {
               <input type="range" className="input-range" min="0.05" max="0.5" step="0.01" value={lineOpacity} onChange={(e) => setLineOpacity(parseFloat(e.target.value))} />
             </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
+            <div className="grid-2-col">
               <div>
-                <label style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: 6 }}>STRING</label>
+                <label className="label-sub">STRING</label>
                 <input type="color" value={stringColor} onChange={(e) => setStringColor(e.target.value)} style={{ width: '100%', height: 36, border: 'none', borderRadius: 6, cursor: 'pointer' }} />
               </div>
               <div>
-                <label style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: 6 }}>BACKGROUND</label>
+                <label className="label-sub">BACKGROUND</label>
                 <input type="color" value={backgroundColor} onChange={(e) => setBackgroundColor(e.target.value)} style={{ width: '100%', height: 36, border: 'none', borderRadius: 6, cursor: 'pointer' }} />
               </div>
             </div>
             
-            <div style={{ marginBottom: 20 }}>
+            <div className="mb-lg">
               <label className="checkbox-label" style={{ marginBottom: 10 }}><input type="checkbox" checked={showOverlay} onChange={(e) => setShowOverlay(e.target.checked)} /><span style={{ fontSize: 13 }}>Show nail markers</span></label>
               <label className="checkbox-label"><input type="checkbox" checked={showImage} onChange={(e) => setShowImage(e.target.checked)} /><span style={{ fontSize: 13 }}>Show source image</span></label>
             </div>
@@ -615,7 +639,7 @@ const StringArtGenerator = () => {
             <button className="btn btn-primary" style={{ width: '100%', marginBottom: 12 }} onClick={isProcessing ? stopProcessing : generateStringArt} disabled={!imageData}>{isProcessing ? '⏹ Stop' : '▶ Generate String Art'}</button>
             
             {isProcessing && (
-              <div style={{ marginBottom: 16 }}>
+              <div className="mb-md">
                 <div className="progress-bar"><div className="progress-fill" style={{ width: `${progress}%` }} /></div>
                 <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 6, textAlign: 'center' }}>Processing... {progress}%</div>
               </div>
@@ -630,46 +654,22 @@ const StringArtGenerator = () => {
                 <button className="btn btn-secondary" onClick={exportOverlay}>🖼 Export Nail Overlay</button>
               </div>
             )}
-          </div>
-          
-          <div className="panel" style={{ padding: 24 }}>
-            <div style={{ display: 'flex', gap: 24 }}>
-              <div>
-                <h3 style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '2px', color: 'rgba(255,255,255,0.6)', marginTop: 0, marginBottom: 16 }}>Preview</h3>
-                <div className="canvas-container">
-                  <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} style={{ display: 'block' }} />
-                  <canvas ref={overlayCanvasRef} width={canvasWidth} height={canvasHeight} style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }} />
-                </div>
-                
-                {stringPath.length > 0 && (
-                  <div style={{ marginTop: 16 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-                      <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { if (isPlaying) setIsPlaying(false); else { if (currentStep >= stringPath.length) setCurrentStep(0); setIsPlaying(true); } }}>{isPlaying ? '⏸' : '▶'}</button>
-                      <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => { setCurrentStep(0); setIsPlaying(false); }}>⏮</button>
-                      <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => setCurrentStep(stringPath.length)}>⏭</button>
-                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>Step {currentStep || stringPath.length} / {stringPath.length}</span>
-                    </div>
-                    <input type="range" className="input-range" min="0" max={stringPath.length} value={currentStep || stringPath.length} onChange={(e) => { setIsPlaying(false); setCurrentStep(parseInt(e.target.value)); }} style={{ width: canvasWidth }} />
-                  </div>
-                )}
+          </section>
+
+          {stringPath.length > 0 && (
+            <section className="panel card-steps">
+              <h2 className="section-title">Routing Steps</h2>
+              <div className="step-display">
+                <div style={{ marginBottom: 12, padding: '8px 12px', background: 'rgba(233,69,96,0.2)', borderRadius: 6 }}><strong>Start:</strong> Nail {stringPath[0]?.from}</div>
+                {stringPath.slice(0, 100).map((step, i) => (<div key={i} className={`step-item ${currentStep === i + 1 ? 'current' : ''}`}>{i + 1}. {step.from} → {step.to}</div>))}
+                {stringPath.length > 100 && (<div style={{ padding: '12px', textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontStyle: 'italic' }}>... and {stringPath.length - 100} more steps<br /><small>Export full instructions ↓</small></div>)}
               </div>
-              
-              {stringPath.length > 0 && (
-                <div style={{ flex: 1, minWidth: 200 }}>
-                  <h3 style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '2px', color: 'rgba(255,255,255,0.6)', marginTop: 0, marginBottom: 16 }}>Routing Steps</h3>
-                  <div className="step-display">
-                    <div style={{ marginBottom: 12, padding: '8px 12px', background: 'rgba(233,69,96,0.2)', borderRadius: 6 }}><strong>Start:</strong> Nail {stringPath[0]?.from}</div>
-                    {stringPath.slice(0, 100).map((step, i) => (<div key={i} className={`step-item ${currentStep === i + 1 ? 'current' : ''}`}>{i + 1}. {step.from} → {step.to}</div>))}
-                    {stringPath.length > 100 && (<div style={{ padding: '12px', textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontStyle: 'italic' }}>... and {stringPath.length - 100} more steps<br /><small>Export full instructions ↓</small></div>)}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        
-        <div style={{ marginTop: 24, padding: 20, background: 'rgba(255,255,255,0.03)', borderRadius: 12, fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>
-          <strong style={{ color: 'rgba(255,255,255,0.7)' }}>How to use:</strong> Set your physical canvas dimensions, adjust nail spacing (5-30mm), upload an image, and generate. The algorithm calculates the optimal number of nails based on your canvas size and spacing preference. <strong style={{ color: spacingQuality.color, marginLeft: 8 }}>Recommended: 8-12mm spacing</strong> for best results. Nails are numbered starting from 0 at the top-left corner, going clockwise.
+            </section>
+          )}
+
+          <footer className="footer-info card-footer">
+            <strong style={{ color: 'rgba(255,255,255,0.7)' }}>How to use:</strong> Set your physical canvas dimensions, adjust nail spacing (5-30mm), upload an image, and generate. The algorithm calculates the optimal number of nails based on your canvas size and spacing preference. <strong style={{ color: spacingQuality.color, marginLeft: 8 }}>Recommended: 8-12mm spacing</strong> for best results. Nails are numbered starting from 0 at the top-left corner, going clockwise.
+          </footer>
         </div>
       </div>
     </div>
