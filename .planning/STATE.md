@@ -2,16 +2,17 @@
 
 ## Current Context
 - **Project:** String Art Generator
-- **Focus:** Implementing PDF export and UI revamp.
+- **Focus:** Final Polish & Documentation.
 - **Last Updated:** 2026-04-25
 
 ## Active Phase
-- **Phase:** Phase 2: PDF Export & UI Revamp
+- **Phase:** Phase 3: Minimalist UI Refinement
 - **Status:** Complete.
 
 ## Wave Progress
 - **Wave 1:** Core PDF Generation (Complete)
 - **Wave 2:** UI Integration & Verification (Complete)
+- **Wave 3:** UI Refinement & Playback (Complete)
 
 ## Quick Tasks
 | ID | Task | Status | Plan |
@@ -24,15 +25,14 @@
 - [x] Project vision and scope defined.
 - [x] Phase-based roadmap created.
 - [x] Phase 1: Stability & Reliability Fixes complete.
-- [x] Phase 2, Plan 1: Core PDF Export Implementation complete.
-- [x] Phase 2, Plan 2: UI Integration of PDF Export complete.
+- [x] Phase 2: PDF Export Implementation complete.
+- [x] Phase 3: Minimalist UI Refinement complete.
 
 ## Key Decisions
-- **PDF Library:** Selected `jsPDF` as per user preference for standard web PDF generation.
-- **Aesthetic:** Minimalist design chosen for the UI revamp.
-- **Reliability:** Priority given to fixing canvas size change bugs before adding new features.
-- **PDF Layout:** Used manual coordinate tracking for 3-column PDF layout to maximize space efficiency for large instruction sets.
-- **Unit Consistency:** Decided to convert internal spacing (mm) to the user's selected unit (cm/in) at the point of PDF export to ensure the document matches the UI's display.
+- **PDF Library:** Selected `jsPDF` for standard web PDF generation.
+- **Aesthetic:** Minimalist Bento Grid layout using CSS Grid.
+- **Styling:** Moved to external `src/index.css` with CSS variables.
+- **Accessibility:** Added ARIA labels and live regions for generation progress.
 
 ## Next Steps
-1. Transition to Phase 3: Minimalist UI Refinement.
+1. Run `/gsd-plan-phase 4` to begin Final Polish & Documentation.
