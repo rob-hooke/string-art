@@ -551,23 +551,23 @@ const StringArtGenerator = () => {
             <h2 className="section-title mt-lg">Nail Configuration</h2>
             
             <div className="mb-md">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }} htmlFor="nail-spacing">NAIL SPACING</label>
+              <div className="flex-between mb-sm">
+                <label className="label-sm" htmlFor="nail-spacing">NAIL SPACING</label>
                 <span className="quality-badge" style={{ background: spacingQuality.color }}>{spacingQuality.label}</span>
               </div>
               <input id="nail-spacing" type="range" className="input-range" min={MIN_NAIL_SPACING} max={MAX_NAIL_SPACING} step="0.5" value={nailSpacing} onChange={(e) => setNailSpacing(parseFloat(e.target.value))} aria-label="Nail spacing in millimeters" />
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>{MIN_NAIL_SPACING}mm</span>
-                <span style={{ fontSize: 12, color: '#e94560' }}>{nailSpacing} mm → {nailCount} nails</span>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>{MAX_NAIL_SPACING}mm</span>
+              <div className="flex-between mt-sm">
+                <span className="text-xs text-muted">{MIN_NAIL_SPACING}mm</span>
+                <span className="text-sm text-accent">{nailSpacing} mm → {nailCount} nails</span>
+                <span className="text-xs text-muted">{MAX_NAIL_SPACING}mm</span>
               </div>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4, textAlign: 'center' }}>{spacingQuality.desc}</div>
+              <div className="text-xs text-muted text-center mt-sm">{spacingQuality.desc}</div>
             </div>
             
-            <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-              <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(10)} aria-label="Set recommended nail spacing">Recommended ({recommendedNails})</button>
-              <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(7)} aria-label="Set high detail nail spacing">High Detail</button>
-              <button className="btn btn-secondary" style={{ flex: 1, padding: '8px', fontSize: 11 }} onClick={() => setNailSpacing(15)} aria-label="Set easy nail spacing">Easy</button>
+            <div className="flex-gap-sm mb-lg">
+              <button className="btn btn-secondary flex-1 text-xs" onClick={() => setNailSpacing(10)} aria-label="Set recommended nail spacing">Recommended ({recommendedNails})</button>
+              <button className="btn btn-secondary flex-1 text-xs" onClick={() => setNailSpacing(7)} aria-label="Set high detail nail spacing">High Detail</button>
+              <button className="btn btn-secondary flex-1 text-xs" onClick={() => setNailSpacing(15)} aria-label="Set easy nail spacing">Easy</button>
             </div>
           </section>
 
@@ -575,14 +575,14 @@ const StringArtGenerator = () => {
             <h2 className="section-title">Preview</h2>
             <div className="flex-col-center">
               <div className={`canvas-container ${isProcessing ? 'is-loading' : ''}`}>
-                <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} style={{ display: 'block' }} aria-label="String art preview canvas" />
+                <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className="block" aria-label="String art preview canvas" />
                 <canvas ref={overlayCanvasRef} width={canvasWidth} height={canvasHeight} style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }} />
                 {isProcessing && <div className="loading-overlay">Generating...</div>}
               </div>
               
               {stringPath.length > 0 && (
                 <div className="playback-controls" style={{ maxWidth: canvasWidth }}>
-                  <div style={{ display: 'flex', gap: 4 }}>
+                  <div className="flex-gap-sm">
                     <button className="btn btn-secondary" style={{ padding: '8px 12px' }} onClick={() => { if (isPlaying) setIsPlaying(false); else { if (currentStep >= stringPath.length) setCurrentStep(0); setIsPlaying(true); } }} aria-label={isPlaying ? "Pause playback" : "Play playback"}>{isPlaying ? '⏸' : '▶'}</button>
                     <button className="btn btn-secondary" style={{ padding: '8px 12px' }} onClick={() => { setCurrentStep(0); setIsPlaying(false); }} aria-label="Reset to start">⏮</button>
                   </div>
@@ -600,25 +600,25 @@ const StringArtGenerator = () => {
             <h2 className="section-title">Image & String</h2>
             
             <div className="mb-lg">
-              <label className="upload-zone" style={{ display: 'block' }}>
-                <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} aria-label="Upload image" />
-                <div style={{ fontSize: 28, marginBottom: 6 }}>📷</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>{image ? 'Click to change image' : 'Drop image or click to upload'}</div>
+              <label className="upload-zone block">
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" aria-label="Upload image" />
+                <div className="text-xl mb-sm">📷</div>
+                <div className="text-sm text-dim">{image ? 'Click to change image' : 'Drop image or click to upload'}</div>
               </label>
             </div>
             
             <div className="mb-lg">
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }} htmlFor="string-connections">STRING CONNECTIONS</label>
-                <span style={{ fontSize: 12, color: '#e94560' }}>{stringCount}</span>
+              <div className="flex-between mb-sm">
+                <label className="label-sm" htmlFor="string-connections">STRING CONNECTIONS</label>
+                <span className="text-sm text-accent">{stringCount}</span>
               </div>
               <input id="string-connections" type="range" className="input-range" min="500" max="5000" step="100" value={stringCount} onChange={(e) => setStringCount(parseInt(e.target.value))} aria-label="Number of string connections" />
             </div>
             
             <div className="mb-lg">
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }} htmlFor="line-opacity">LINE OPACITY</label>
-                <span style={{ fontSize: 12, color: '#e94560' }}>{(lineOpacity * 100).toFixed(0)}%</span>
+              <div className="flex-between mb-sm">
+                <label className="label-sm" htmlFor="line-opacity">LINE OPACITY</label>
+                <span className="text-sm text-accent">{(lineOpacity * 100).toFixed(0)}%</span>
               </div>
               <input id="line-opacity" type="range" className="input-range" min="0.05" max="0.5" step="0.01" value={lineOpacity} onChange={(e) => setLineOpacity(parseFloat(e.target.value))} aria-label="Line opacity" />
             </div>
@@ -626,25 +626,25 @@ const StringArtGenerator = () => {
             <div className="grid-2-col">
               <div>
                 <label className="label-sub" htmlFor="string-color">STRING</label>
-                <input id="string-color" type="color" value={stringColor} onChange={(e) => setStringColor(e.target.value)} style={{ width: '100%', height: 36, border: 'none', borderRadius: 6, cursor: 'pointer' }} aria-label="String color" />
+                <input id="string-color" type="color" value={stringColor} onChange={(e) => setStringColor(e.target.value)} className="color-input" aria-label="String color" />
               </div>
               <div>
                 <label className="label-sub" htmlFor="bg-color">BACKGROUND</label>
-                <input id="bg-color" type="color" value={backgroundColor} onChange={(e) => setBackgroundColor(e.target.value)} style={{ width: '100%', height: 36, border: 'none', borderRadius: 6, cursor: 'pointer' }} aria-label="Background color" />
+                <input id="bg-color" type="color" value={backgroundColor} onChange={(e) => setBackgroundColor(e.target.value)} className="color-input" aria-label="Background color" />
               </div>
             </div>
             
             <div className="mb-lg">
-              <label className="checkbox-label" style={{ marginBottom: 10 }}><input type="checkbox" checked={showOverlay} onChange={(e) => setShowOverlay(e.target.checked)} aria-label="Show nail markers" /><span style={{ fontSize: 13 }}>Show nail markers</span></label>
-              <label className="checkbox-label"><input type="checkbox" checked={showImage} onChange={(e) => setShowImage(e.target.checked)} aria-label="Show source image" /><span style={{ fontSize: 13 }}>Show source image</span></label>
+              <label className="checkbox-label mb-sm"><input type="checkbox" checked={showOverlay} onChange={(e) => setShowOverlay(e.target.checked)} aria-label="Show nail markers" /><span>Show nail markers</span></label>
+              <label className="checkbox-label"><input type="checkbox" checked={showImage} onChange={(e) => setShowImage(e.target.checked)} aria-label="Show source image" /><span>Show source image</span></label>
             </div>
             
-            <button className="btn btn-primary" style={{ width: '100%', marginBottom: 12 }} onClick={isProcessing ? stopProcessing : generateStringArt} disabled={!imageData} aria-label={isProcessing ? "Stop generation" : "Start string art generation"}>{isProcessing ? '⏹ Stop' : '▶ Generate String Art'}</button>
+            <button className="btn btn-primary full-width mb-md" onClick={isProcessing ? stopProcessing : generateStringArt} disabled={!imageData} aria-label={isProcessing ? "Stop generation" : "Start string art generation"}>{isProcessing ? '⏹ Stop' : '▶ Generate String Art'}</button>
             
             {isProcessing && (
               <div className="mb-md" role="status" aria-live="polite">
                 <div className="progress-bar"><div className="progress-fill" style={{ width: `${progress}%` }} aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100" /></div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 6, textAlign: 'center' }}>Processing... {progress}%</div>
+                <div className="text-xs text-dim text-center mt-sm">Processing... {progress}%</div>
               </div>
             )}
             
@@ -673,10 +673,8 @@ const StringArtGenerator = () => {
           <footer className="footer-info card-footer">
             <strong style={{ color: 'rgba(255,255,255,0.7)' }}>How to use:</strong> Set your physical canvas dimensions, adjust nail spacing (5-30mm), upload an image, and generate. The algorithm calculates the optimal number of nails based on your canvas size and spacing preference. <strong style={{ color: spacingQuality.color, marginLeft: 8 }}>Recommended: 8-12mm spacing</strong> for best results. Nails are numbered starting from 0 at the top-left corner, going clockwise.
           </footer>
-        </div>
-      </div>
-    </div>
-  );
-};
-
+          </div>
+          </div>
+          );
+          };
 export default StringArtGenerator;

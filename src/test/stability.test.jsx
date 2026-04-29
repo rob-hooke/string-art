@@ -24,7 +24,7 @@ describe('StringArtGenerator Stability', () => {
     render(<StringArtGenerator />);
     await uploadImage();
 
-    const generateBtn = screen.getByRole('button', { name: /Generate String Art/i });
+    const generateBtn = screen.getByRole('button', { name: /Start string art generation/i });
     await act(async () => {
       fireEvent.click(generateBtn);
       // Wait for the loop to start
@@ -54,7 +54,7 @@ describe('StringArtGenerator Stability', () => {
     await uploadImage();
     
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: /Generate String Art/i }));
+      fireEvent.click(screen.getByRole('button', { name: /Start string art generation/i }));
       await vi.advanceTimersByTimeAsync(100);
     });
 
@@ -83,7 +83,7 @@ describe('StringArtGenerator Stability', () => {
     await uploadImage();
     
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: /Generate String Art/i }));
+      fireEvent.click(screen.getByRole('button', { name: /Start string art generation/i }));
       await vi.advanceTimersByTimeAsync(10);
     });
     
